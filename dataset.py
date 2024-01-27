@@ -224,7 +224,7 @@ def cifar100_dataloaders(
     train_set.targets = np.array(train_set.targets)
     test_set.targets = np.array(test_set.targets)
 
-    val_rng = np.random.RandomState(seed)
+    val_rng = np.random.RandomState(val_set_seed)
     valid_set = copy.deepcopy(train_set)
     valid_idx = []
     for i in range(max(train_set.targets) + 1):
@@ -259,6 +259,11 @@ def cifar100_dataloaders(
         if num_indexes_to_replace is None or num_indexes_to_replace==450:
             test_set.data = test_set.data[test_set.targets != class_to_replace]
             test_set.targets = test_set.targets[test_set.targets != class_to_replace]
+            valid_set.data = valid_set.data[valid_set.targets ==\
+                    class_to_replace]
+            valid_set.targets = valid_set.targets[valid_set.targets ==\
+                    class_to_replace]
+ 
     if indexes_to_replace:
         replace_indexes(
             dataset=train_set,
@@ -616,10 +621,12 @@ def cifar10_dataloaders(
                     class_to_replace]
             test_set.targets = test_set.targets[test_set.targets !=\
                     class_to_replace]
+            '''
             valid_set.data = valid_set.data[valid_set.targets ==\
                     class_to_replace]
             valid_set.targets = valid_set.targets[valid_set.targets ==\
                     class_to_replace]
+            '''
  
     if indexes_to_replace:
         replace_indexes(

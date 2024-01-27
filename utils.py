@@ -271,14 +271,14 @@ def setup_model_dataset(args):
         normalization = NormalizeByChannelMeanStd(
             mean=[0.5071, 0.4866, 0.4409], std=[0.2673, 0.2564, 0.2762]
         )
-        train_full_loader, val_loader, _ = cifar100_dataloaders(
+        train_full_loader, _, _ = cifar100_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
             seed=args.seed,
             val_set_seed=args.val_set_seed,
             num_workers=args.workers
         )
-        marked_loader, _, test_loader = cifar100_dataloaders(
+        marked_loader, val_loader, test_loader = cifar100_dataloaders(
             batch_size=args.batch_size,
             data_dir=args.data,
             num_workers=args.workers,
