@@ -88,8 +88,8 @@ def Gan(dataloaders, modelD, modelA, args):
                 SCHEDULE THE LR FOR THE ATTACKER FOR BETTER PERFORMANCE!!
                 '''
                 fseta = next(iter(forget_loader))
-                fset = fseta[0][:min(args.batch_size, len(test_prime_loader.dataset))].to(device)
-                flabels = fseta[1][:min(args.batch_size, len(test_prime_loader.dataset))].to(device)
+                fset = fseta[0].to(device)
+                flabels = fseta[1].to(device)
                 f_gt = nn.functional.one_hot(flabels, num_classes=args.num_classes)
                 f_size = fset.shape[0]
                 fset_noisy = fset.repeat(m, 1, 1, 1) 
@@ -110,7 +110,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 assert flabel.shape == tlabel.shape
          
                 dfpreds_fset, dffeats_fset = netD(fset)
-                dffeats_fset = (dffeats_fset - dffeats_fset.mean(dim=0))/dffeats_fset.std(0)
+                dffeats_fset = (dffeats_fset - dffeats_fset.mean(dim=0))#/dffeats_fset.std(0)
                 dfpreds_noisy, _ = netD(fset_noisy)
                 difff = torch.abs(dfpreds_noisy - dfpreds_fset.repeat((m, 1)))
                 difff = difff.view(m, -1, args.num_classes)
@@ -118,7 +118,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 dfpreds = torch.cat([dfpreds_fset.detach(), f_gt, difff.detach()], dim=1)
 
                 dtpreds_tset, dtfeats_tset = netD(tprime)
-                dtfeats_tset = (dtfeats_tset - dtfeats_tset.mean(dim=0))/dtfeats_tset.std(0)
+                dtfeats_tset = (dtfeats_tset - dtfeats_tset.mean(dim=0))#/dtfeats_tset.std(0)
                 dtpreds_noisy, _ = netD(tprime_noisy)
                 difft = torch.abs(dtpreds_noisy - dtpreds_tset.repeat((m, 1)))
                 difft = difft.view(m, -1, args.num_classes)
@@ -155,7 +155,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 dpreds = torch.cat([dfpreds, dtpreds], dim=0)
                 Apreds = netA(dpreds)
                 errA = criterion(Apreds, torch.cat([tlabel, flabel])) # REVERSE THE LABELS
-                #errcl_f = criterion(dfpreds_fset, flabels)
+                errcl_f = criterion(dfpreds_fset, flabels)
                 # contrastive objective
                 '''
                 # DINO
@@ -189,14 +189,14 @@ def Gan(dataloaders, modelD, modelA, args):
                 mask = torch.eye(contram.shape[0]).to(device)
                 posvals = torch.square(contram.masked_select(mask.bool()) - 1).sum()
                 negvals = torch.square(contram.masked_select(~mask.bool())).sum()
-                print(posvals, negvals, 'xxxxxxxxxxxxxx')
+                #print(posvals, negvals, dffeats_fset.std(0), dtfeats_tset.std(0), 'xxxxxxxxxxxxxx')
                 contral = posvals + 5e-3*negvals
                 beta = 1
                 if args.class_to_replace in list(range(args.num_classes)):
-                    if iters > 30:
+                    if iters > args.stop_iter:
                         beta = 0
                         for g in optimizerD.param_groups:
-                            g['lr'] = 0.01
+                            g['lr'] = args.stop_unlearn_lr
 
                 lossD = errcl + beta*(0.001*contral +0.9*errA)  #- 0.004*errcl_f 
                 print(errcl.item(), errA.item(), args.seed,\

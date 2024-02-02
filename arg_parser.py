@@ -134,6 +134,8 @@ def parse_args():
         help="Train only the attacker for 1000 iterations.",
     )
     parser.add_argument("--alpha", default=0.2, type=float, help="unlearn noise")
+    parser.add_argument("--stop-iter", default=None, type=int, help="stop updating defender with attacker info after these many iterations | Cifar-10: 30, Cifar-100: 45")
+    parser.add_argument("--stop-unlearn-lr", default=None, type=float, help="subsequent unlearning lr after the aforementioned stopping| Cifar-10: 0.01, Cifar-100: 0.02")
 
     ##################################### Attack setting #################################################
     parser.add_argument(
