@@ -110,7 +110,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 assert flabel.shape == tlabel.shape
          
                 dfpreds_fset, dffeats_fset = netD(fset)
-                dffeats_fset = (dffeats_fset - dffeats_fset.mean(dim=0))#/dffeats_fset.std(0)
+                dffeats_fset = (dffeats_fset - dffeats_fset.mean(dim=0))/dffeats_fset.std(0)
                 dfpreds_noisy, _ = netD(fset_noisy)
                 difff = torch.abs(dfpreds_noisy - dfpreds_fset.repeat((m, 1)))
                 difff = difff.view(m, -1, args.num_classes)
@@ -118,7 +118,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 dfpreds = torch.cat([dfpreds_fset.detach(), f_gt, difff.detach()], dim=1)
 
                 dtpreds_tset, dtfeats_tset = netD(tprime)
-                dtfeats_tset = (dtfeats_tset - dtfeats_tset.mean(dim=0))#/dtfeats_tset.std(0)
+                dtfeats_tset = (dtfeats_tset - dtfeats_tset.mean(dim=0))/dtfeats_tset.std(0)
                 dtpreds_noisy, _ = netD(tprime_noisy)
                 difft = torch.abs(dtpreds_noisy - dtpreds_tset.repeat((m, 1)))
                 difft = difft.view(m, -1, args.num_classes)
