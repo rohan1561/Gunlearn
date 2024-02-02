@@ -6,7 +6,7 @@ def parse_args():
 
     ##################################### Dataset #################################################
     parser.add_argument(
-        "--data", type=str, default="/data/rohan/data/cifar-10-batches-py/", help="location of the data corpus"
+        "--data", type=str, default="./", help="location of the data corpus"
     )
     parser.add_argument("--dataset", type=str, default="cifar100", help="dataset")
     parser.add_argument(
