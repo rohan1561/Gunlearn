@@ -32,5 +32,5 @@ python -u main_forget.py --save_dir ./saves/saves_c100_classwise/${class} --mask
 ```
 
 ### Acknowledgement
-We acknowledge the valuable work of https://github.com/OPTML-Group/Unlearn-Sparse on whom this repository is based.
+We acknowledge the valuable contributions of https://github.com/OPTML-Group/Unlearn-Sparse on whose work this repository is based.
 
