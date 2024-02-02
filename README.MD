@@ -1,5 +1,3 @@
-<div align="center">
-
 
 This is the anonymized repository for the submission titled Discriminative Adversarial Unlearning.
 
@@ -27,9 +25,11 @@ python -u main_forget.py --save_dir ./saves/saves_c10_classwise/${class} --mask 
 #### Cifar-100 Random forgetting
 ```
 python -u main_forget.py --save_dir ./saves/saves_c100_random/${seed} --mask ./masks/mask_c100/1model_SA_best.pth.tar --unlearn Gan --indexes_to_replace --unlearn_lr 0.01 --unlearn_epochs 5  --dataset cifar100 --num_classes 100 --seed ${seed}
+```
 
 #### Cifar-100 Class-wise forgetting
 ```
-CUDA_VISIBLE_DEVICES=0 python -u main_forget.py --save_dir ./saves/saves_c100_classwise/${class} --mask ./masks/mask_c100/1model_SA_best.pth.tar --unlearn Gan --class_to_replace ${class} --num_indexes_to_replace 450 --unlearn_lr 0.02 --unlearn_epochs 5  --dataset cifar100 --num_classes 100 --stop-iter 30 --stop-unlearn-lr 0.02
+python -u main_forget.py --save_dir ./saves/saves_c100_classwise/${class} --mask ./masks/mask_c100/1model_SA_best.pth.tar --unlearn Gan --class_to_replace ${class} --num_indexes_to_replace 450 --unlearn_lr 0.02 --unlearn_epochs 5  --dataset cifar100 --num_classes 100 --stop-iter 30 --stop-unlearn-lr 0.02
+```
 
 
