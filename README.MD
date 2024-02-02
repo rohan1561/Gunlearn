@@ -10,7 +10,6 @@ conda env create -f environment.yml
 
 # Commands
 
-## Unlearning
 ### Adversarial Unlearning (Method presented in the submission)
 #### Cifar-10 Random forgetting
 ```
@@ -32,4 +31,6 @@ python -u main_forget.py --save_dir ./saves/saves_c100_random/${seed} --mask ./m
 python -u main_forget.py --save_dir ./saves/saves_c100_classwise/${class} --mask ./masks/mask_c100/1model_SA_best.pth.tar --unlearn Gan --class_to_replace ${class} --num_indexes_to_replace 450 --unlearn_lr 0.02 --unlearn_epochs 5  --dataset cifar100 --num_classes 100 --stop-iter 30 --stop-unlearn-lr 0.02
 ```
 
+### Acknowledgement
+We acknowledge the valuable work of https://github.com/OPTML-Group/Unlearn-Sparse on whom this repository is based.
 
