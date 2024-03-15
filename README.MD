@@ -34,3 +34,15 @@ python -u main_forget.py --save_dir ./saves/saves_c100_classwise/${class} --mask
 ### Acknowledgement
 We acknowledge the valuable contributions of https://github.com/OPTML-Group/Unlearn-Sparse on whose work this repository is based.
 
+### Citation
+```
+@misc{sharma2024discriminative,
+      title={Discriminative Adversarial Unlearning}, 
+      author={Rohan Sharma and Shijie Zhou and Kaiyi Ji and Changyou Chen},
+      year={2024},
+      eprint={2402.06864},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
+
