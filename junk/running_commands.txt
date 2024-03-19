@@ -1,1 +1,0 @@
-CUDA_VISIBLE_DEVICES=1 python -u main_forget.py --save_dir ./saves/ --mask ./mask/1model_SA_best.pth.tar --unlearn Gan --indexes_to_replace True --unlearn_lr 0.01 --unlearn_epochs 10
