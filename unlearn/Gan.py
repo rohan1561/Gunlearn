@@ -138,7 +138,7 @@ def Gan(dataloaders, modelD, modelA, args):
                 print(clsacc.item(), Defacc_f.item(), Defacc_v.item(), iters,\
                         'attacker, def_forget, def_valid, iterations')
                 iters += 1
-                if (iters == 20000) & args.train_attacker:
+                if (iters == 1000) & args.train_attacker:
                     print(iters, args.train_attacker, 'xxxxxxxxxxxxxxx')
                     state = {'state_dict': netA.state_dict(), 'acc_attack': clsacc}
                     utils.save_checkpoint(state, False, args.save_dir,\
